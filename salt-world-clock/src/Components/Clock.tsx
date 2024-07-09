@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface ClockProps {
-  timezone: string;
   time: string;
+  timezone: string;
 }
 
 
@@ -10,8 +10,9 @@ interface ClockProps {
 const Clock: React.FC<ClockProps> = ({timezone, time}) => {
   return (
     <div className='clock-container'>
-      <div>{timezone}</div>  
-      <div>{time} : </div>
+      <div>{timezone} </div>
+      <div className='clock'>{time}</div>  
+      
     </div>
   );
 };

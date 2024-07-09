@@ -31,14 +31,16 @@ const Board: React.FC = () => {
     const interval = setInterval(updateTimes, 1000);
 
     return () => clearInterval(interval); // Cleanup on unmount
-  }, [timezones]);
+  }, []);
+
 
   return (
-    <>
+    
+    <div className="board-container">
       {timezones.map((timezone) => (
-        <Clock key={timezone} timezone={timezone} time={times[timezone]} />
+        <Clock key={timezone} timezone={timezone.split('/')[1].replace('_', ' ')} time={times[timezone]} />
       ))}
-    </>
+    </div>
   );
 };
 
