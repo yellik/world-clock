@@ -1,44 +1,45 @@
-import Clock from './Clock'
-import { useState, useEffect } from 'react';
-const Board : React.FC = () => {
+import Clock from "./Clock";
+import { useState, useEffect } from "react";
 
-    const [time, setTime] = useState(new Date());
+const Board: React.FC = () => {
+  const timezones = [
+    "Europe/Stockholm",
+    "Europe/London",
+    "Europe/Paris",
+    "Europe/Moscow",
+    "Asia/Tokyo",
+    "America/New_York",
+    "America/Los_Angeles",
+    "America/Sao_Paulo",
+  ];
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setTime(new Date());
-      }, 1000);
-  
-      return () => clearInterval(interval); // Cleanup on unmount
-    }, []);
+  const [times, setTimes] = useState<{ [key: string]: string }>({});
 
-    const now = new Date();
+  useEffect(() => {
+    const updateTimes = () => {
+      const newTimes: { [key: string]: string } = {};
+      timezones.forEach((timezone) => {
+        newTimes[timezone] = new Date(Date.now()).toLocaleTimeString("en-US", {
+          timeZone: timezone,
+          hour12: false,
+        });
+      });
+      setTimes(newTimes);
+    };
 
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-  
+    updateTimes();
+    const interval = setInterval(updateTimes, 1000);
 
-return (
-    <div>
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [timezones]);
 
-    <div>
-        <Clock city='Stockholm' hours={hours} minutes={minutes} seconds={seconds} />
-    </div>
-    <div>
-        <Clock city='London' hours={hours} minutes={minutes} seconds={seconds} />
-    </div>
-    <div>
-        <Clock city='Paris' hours={hours} minutes={minutes} seconds={seconds} />
-    </div>
-    
-
-
-    </div>
-  
-
-)
-
-}
+  return (
+    <>
+      {timezones.map((timezone) => (
+        <Clock key={timezone} timezone={timezone} time={times[timezone]} />
+      ))}
+    </>
+  );
+};
 
 export default Board;

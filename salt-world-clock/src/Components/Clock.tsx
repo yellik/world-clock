@@ -1,19 +1,17 @@
 import React from 'react';
 
 interface ClockProps {
-  city: string;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  timezone: string;
+  time: string;
 }
 
-const Clock: React.FC<ClockProps> = ({city, hours, minutes, seconds }) => {
+
+
+const Clock: React.FC<ClockProps> = ({timezone, time}) => {
   return (
     <div className='clock-container'>
-      <div>{city}</div>  
-      <div>{hours} : </div>
-      <div>{minutes} : </div>
-      <div>{seconds}</div>
+      <div>{timezone}</div>  
+      <div>{time} : </div>
     </div>
   );
 };
